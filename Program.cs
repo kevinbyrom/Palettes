@@ -10,6 +10,8 @@ namespace Palettes
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Generating palettes...");
+            GeneratePalette("Standard", new StandardGenerator(PaletteColors.Black), new StandardGenerator(PaletteColors.White));   
             GeneratePalette("BasicDark", new StandardGenerator(PaletteColors.Black));   
             GeneratePalette("BasicLight", new StandardGenerator(PaletteColors.White));   
             GeneratePalette("EarthyDark", new StandardGenerator(PaletteColors.Black, new PaletteColor(164, 100, 34)));   
@@ -19,14 +21,20 @@ namespace Palettes
             GeneratePalette("FireyDark", new StandardGenerator(PaletteColors.Black, new PaletteColor(204, 28, 0)));   
             GeneratePalette("FireyLight", new StandardGenerator(PaletteColors.White, new PaletteColor(204, 28, 0)));   
             GeneratePalette("Pastels", new StandardGenerator(PaletteColors.White, PaletteColors.White));   
-            GeneratePalette("Shadows", new StandardGenerator(PaletteColors.White, PaletteColors.Black));   
+            GeneratePalette("Shadows", new StandardGenerator(PaletteColors.White, PaletteColors.Black));  
+            Console.WriteLine("Done"); 
         }
 
-        static void GeneratePalette(string name, IPaletteGenerator gen)
+        static void GeneratePalette(string name, params IPaletteGenerator[] gens)
         {
-            Palette palette = gen.Generate(name);
+            Palette palette = new Palette(name);
 
-            using (StreamWriter writer = new StreamWriter($"c:\\temp\\{name}.gpl", false))
+            foreach (var gen in gens)
+            {
+                palette.Add(gen.Generate(name));    
+            }
+
+            using (StreamWriter writer = new StreamWriter($"{name}.gpl", false))
             {
                 WritePalette(writer, palette);
             }

@@ -20,12 +20,15 @@ namespace Palettes.Generation
             if (this.NumEntries == 0)
                 throw new InvalidOperationException("NumEntries must be greater than zero");
 
-            return new PaletteColor[] {
-                new PaletteColor(0),
-                new PaletteColor(64),
-                new PaletteColor(128),
-                new PaletteColor(255)
-            };
+            var colors = new List<PaletteColor>();
+            for (int i = 0; i < this.NumEntries; i++)
+            {
+                var step = 256 / this.NumEntries;
+
+                colors.Add(new PaletteColor(i * step));
+            }
+
+            return colors.ToArray();
         }
 
 

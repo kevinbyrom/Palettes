@@ -16,7 +16,14 @@ namespace Palettes
 
         public void Add(PaletteColor color)
         {
-            this.Colors.Add(color);
+            if (!this.Colors.Contains(color))
+                this.Colors.Add(color);
+        }
+
+        public void Add(Palette pallete)
+        {
+            foreach (var color in pallete.Colors)
+                Add(color);
         }
 
         public void Add(IEnumerable<PaletteColor> colors)

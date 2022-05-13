@@ -46,6 +46,13 @@ namespace Palettes
             return false;
         }
 
+        public override int GetHashCode()
+        {
+            string s = String.Format("{0:000}{1:000}{2:000}", this.Red, this.Green, this.Blue);
+            
+            return s.GetHashCode();
+        }
+
         #region Utility Methods
 
         public static PaletteColor Linear(PaletteColor minVal, PaletteColor maxVal, float pct)
